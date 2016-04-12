@@ -47,15 +47,13 @@ public class EditViewModel {
         if (StringUtils.isNullOrWhiteSpace(email))
             errors.add(new ValidationError("email", "email is a required field"));
         if (!newPassword.equals(newPasswordVerify))
-            errors.add(new ValidationError("newPassword", "passwords do not match"));
-        else if(newPassword.isEmpty() || newPasswordVerify.isEmpty())
-            errors.add(new ValidationError("newPassword", "password field is empty"));
-        else {
-            if(newPassword.length() < 6 || !hasUppercase.matcher(newPassword).find()
-                    || !hasNumber.matcher(newPassword).find())      //AJ Saclayan Password Constraints
-                errors.add(new ValidationError("newPassword",
-                        "password must have at least 6 characters with at least one upper case letter and number"));
-        }
+            errors.add(new ValidationError("newPassword", "passwords do not match"))
+//        else {
+//            if(newPassword.length() < 6 || !hasUppercase.matcher(newPassword).find()
+//                    || !hasNumber.matcher(newPassword).find())      //AJ Saclayan Password Constraints
+//                errors.add(new ValidationError("newPassword",
+//                        "password must have at least 6 characters with at least one upper case letter and number"));
+//        }
         if (roles == null || roles.size() < 1)
             errors.add(new ValidationError("roles", "a user needs at least one role"));
 

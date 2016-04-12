@@ -7,7 +7,7 @@
         <label for="assessment">Assessment</label>
         @defining(treatmentTab.getTabFieldItemByName(null, "assessment")) { assessment =>
             <input name="tabFieldItems[@assessment.getIndex].name" type="text" class="hidden" value="assessment"/>
-            <textarea rows="3" name="tabFieldItems[@assessment.getIndex].value" class="form-control input-sm">@assessment.getValue</textarea>
+            <textarea placeholder="Treatment Given" rows="3" name="tabFieldItems[@assessment.getIndex].value" class="form-control input-sm">@assessment.getValue</textarea>
         }
         </div>
 
@@ -68,7 +68,7 @@
         <label for="treatment">Treatment Given</label>
         @defining(treatmentTab.getTabFieldItemByName(null, "treatment")) { treatment =>
             <input name="tabFieldItems[@treatment.getIndex].name" type="text" class="hidden" value="treatment"/>
-            <textarea rows="3" name="tabFieldItems[@treatment.getIndex].value" class="form-control input-sm">@treatment.getValue</textarea>
+            <textarea placeholder="some awesome placeholder" rows="3" name="tabFieldItems[@treatment.getIndex].value" class="form-control input-sm">@treatment.getValue</textarea>
         }
     </div>
 </div>

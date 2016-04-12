@@ -148,7 +148,6 @@ public class UsersController extends Controller {
         editUserViewModel.setFirstName(userItem.getFirstName());
         editUserViewModel.setLastName(userItem.getLastName());
         editUserViewModel.setEmail(userItem.getEmail());
-        editUserViewModel.setPasswordReset(Boolean.toString(userItem.isPasswordReset()));
         editUserViewModel.setRoles(userItem.getRoles());
         editUserViewModel.setNotes(userItem.getNotes());
         editUserViewModel.setMissionTripItems(missionTripItemServiceResponse.getResponseObject());
@@ -204,6 +203,7 @@ public class UsersController extends Controller {
             if (StringUtils.isNotNullOrWhiteSpace(viewModel.getNewPassword()) && viewModel.getNewPassword().equals(viewModel.getNewPasswordVerify())) {
                 newPassword = viewModel.getNewPassword();
             }
+
 
             if (viewModel.getRoles().size() > 0) {
                 ServiceResponse<List<String>> allRolesServiceResponse = roleService.retrieveAllRoles();
