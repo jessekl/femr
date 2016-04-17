@@ -12,6 +12,8 @@ $(document).ready(function(){
         $('#cityTable').DataTable();
     if ($('#teamTable').length > 0)
         $('#teamTable').DataTable();
+    if ($('#userTable').length > 0)
+        $('#userTable').DataTable();
     if ($('#addUsersSelect2').length > 0){
 
         $('#addUsersSelect2').select2({

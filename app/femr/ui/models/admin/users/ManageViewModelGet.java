@@ -17,4 +17,6 @@ public class ManageViewModelGet {
     public List<UserItem> getUsers() {
         return users;
     }
+
+    public int getPages() {return (users.size() / 20);}
 }

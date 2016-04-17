@@ -4,19 +4,23 @@
 @import femr.ui.views.html.layouts.admin
 @import femr.ui.views.html.partials.admin.toggleButton
 
-    @additionalStyles = {
-        <link rel="stylesheet" href="@routes.Assets.versioned("css/admin/users.css")">
-    }
+@additionalStyles = {
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/libraries/jquery.dataTables.min.css")">
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/superuser/superuser.css")">
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/admin/users.css")">
+}
 
-    @additionalScripts = {
-        <script type="text/javascript" src="@routes.Assets.versioned("js/admin/users.js")"></script>
-    }
+@additionalScripts = {
+    <script type = "text/javascript" src="@routes.Assets.versioned("js/libraries/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("js/superuser/superuser.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("js/admin/users.js")"></script>
+}
 
 @admin("Users", currentUser, styles = additionalStyles, scripts = additionalScripts) {
 
     <a href="@UsersController.createGet()" class="fButton fOtherButton fAdminButton userBtns"><span class="glyphicon glyphicon-plus-sign"></span>
         Add User</a>
-
+<div id="tableWrap">
     <table id="userTable">
         <thead>
             <tr>
@@ -31,6 +35,7 @@
             </tr>
         </thead>
         <tbody>
+
         @for(y <- 1 to viewModelGet.getUsers.size) {
             <tr>
                 <td>
@@ -66,6 +71,7 @@
         }
         </tbody>
     </table>
+</div>
     <div id="editDialog" title="Edit User">
         <div id="editPartial">
             @*load partial view for editing a user via admin.js*@
