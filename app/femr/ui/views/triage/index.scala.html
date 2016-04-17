@@ -61,14 +61,14 @@
                     @inputAge("Age", "Years", "years", "Months", "months", if(viewModel != null) viewModel.getPatient else null)
                     <span class="orSpan">OR</span>
                     @inputDate("Birth Date", "age", if(viewModel != null) viewModel.getPatient.getBirth else null)
-                    <span class="orSpan">OR</span>
+                    <!--<span class="orSpan">OR</span>-->
                     <div class="generalInfoInput">
-                        <div id="classificationRadioWrap">
-                        @for((key, valyew) <- viewModel.getPossibleAgeClassifications) {
+                        <!--<div id="classificationRadioWrap">
+                        //@for((key, valyew) <- viewModel.getPossibleAgeClassifications) {
                             <label><input type="radio" name="ageClassification" value="@key" /> @key <span>@valyew</span></label>
                         }
 
-                        </div>
+                        </div>-->
                     </div>
 
                 </div>
