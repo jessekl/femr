@@ -152,6 +152,7 @@ public class PatientEncounterItem {
     }
 
     public void setAgeClassification(String ageClassification) {
+
         this.ageClassification = ageClassification;
     }
 

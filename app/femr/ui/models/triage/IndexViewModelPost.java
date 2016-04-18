@@ -21,6 +21,8 @@ package femr.ui.models.triage;
 import femr.common.models.PatientItem;
 
 import java.util.Date;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class IndexViewModelPost {
 
@@ -109,6 +111,28 @@ public class IndexViewModelPost {
 
     public void setAge(Date age) {
         this.age = age;
+    }
+
+    public String getAgeClassification() {
+        return ageClassification;
+    }
+
+    public void setAgeClassification(String ageClassification) {
+        Calendar todaysDate = Calendar.getInstance(Locale.US);
+        Calendar birthDate = Calendar.getInstance();
+        Date date = this.getAge();
+        birthDate.setTime(date);
+        int x = todaysDate.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
+        if(x < 2)
+            this.ageClassification = "1";
+        else if (x < 13)
+            this.ageClassification = "2";
+        else if (x < 18)
+            this.ageClassification = "3";
+        else if (x < 65)
+            this.ageClassification = "4";
+        else
+            this.ageClassification = "5";
     }
 
     public String getSex() {
@@ -222,14 +246,6 @@ public class IndexViewModelPost {
 
     public void setChiefComplaintsJSON(String chiefComplaintsJSON) {
         this.chiefComplaintsJSON = chiefComplaintsJSON;
-    }
-
-    public String getAgeClassification() {
-        return ageClassification;
-    }
-
-    public void setAgeClassification(String ageClassification) {
-        this.ageClassification = ageClassification;
     }
 
     public String getIsDiabetesScreenPerformed() {
