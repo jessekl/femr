@@ -1,4 +1,4 @@
-@(currentUser: femr.common.dtos.CurrentUser, viewModel: femr.ui.models.pharmacy.EditViewModelGet, searchError: java.lang.Boolean )
+@(currentUser: femr.common.dtos.CurrentUser, form: play.data.Form[femr.ui.models.pharmacy.EditViewModelPost], viewModel: femr.ui.models.pharmacy.EditViewModelGet, searchError: java.lang.Boolean )
 
 @import femr.ui.controllers.routes.PharmaciesController
 @import femr.ui.views.html.layouts.main
@@ -6,6 +6,11 @@
 @import femr.ui.views.html.partials.patientOverview
 @import femr.ui.views.html.partials.medical.tabs.prescriptionRow
 @import femr.ui.views.html.partials.helpers.outputStringOrNA
+@import views.html.helper.FieldConstructor
+@import femr.ui.views.html.partials.admin.inputFieldConstructor
+@implicitField = @{
+    FieldConstructor(inputFieldConstructor.f)
+}
 
     @additionalScripts = {
 
@@ -31,9 +36,35 @@
 
         <div id="mainWrap" class="backgroundForWrap">
 
+        @helper.form(action = PharmaciesController.editPost(viewModel.getPatient.getId),
+            'class-> "form-horizontal", 'name-> "createForm") {
+
+            <div id="diagnosisWrap">
+                <h4>List of Diagnoses</h4>
+
+                <ol class="problems">
+
+                @if(viewModel.getProblems != null) {
+                    @for(y <- 1 to viewModel.getProblems.size) {
+                        @if(viewModel.getProblems.get(y - 1) != null) {
+                            <!--<li>@viewModel.getProblems.get(y - 1).getName</li>-->
+                            @helper.inputText(form("diagnosis"),
+                                'class -> "diagnosis",
+                                'placeholder -> "Edit Diagnosis",
+                                '_label -> "",
+                                '_isRequired -> false
+                            )
+                            <input type="submit" value="Replace @viewModel.getProblems.get(y - 1).getName"></input>
+                        }
+                    }
+                }
+                </ol>
+            </div>
+        }
+
         @helper.form(action = PharmaciesController.editPost(viewModel.getPatient.getId)) {
 
-                <div id="diagnosisWrap">
+               <!-- <div id="diagnosisWrap">
                     <h4>List of Diagnoses</h4>
 
                     <ol class="problems">
@@ -48,7 +79,7 @@
                         }
                     }
                     </ol>
-                </div>
+                </div>-->
 
 
             <div id="medicationWrap" class="form-group">

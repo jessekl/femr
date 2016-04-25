@@ -20,10 +20,22 @@ package femr.ui.models.pharmacy;
 
 import femr.common.models.PrescriptionItem;
 import play.data.validation.Constraints;
-
+import femr.util.stringhelpers.StringUtils;
+import play.data.validation.ValidationError;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditViewModelPost {
+
+    private String diagnosis;
+
+    public void setDiagnosis(String diagnosis){
+        this.diagnosis = diagnosis;
+    }
+
+    public String getDiagnosis(){
+        return diagnosis;
+    }
 
     private List<PrescriptionItem> prescriptions;
 

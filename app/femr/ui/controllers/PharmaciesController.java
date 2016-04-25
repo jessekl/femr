@@ -93,6 +93,7 @@ public class PharmaciesController extends Controller {
         CurrentUser currentUserSession = sessionService.retrieveCurrentUserSession();
 
         EditViewModelGet viewModelGet = new EditViewModelGet();
+        //EditViewModelPost postModel = new EditViewModelPost();
         String message;
 
         // Get settings
@@ -153,7 +154,7 @@ public class PharmaciesController extends Controller {
             }
         }
 
-        return ok(edit.render(currentUserSession, viewModelGet, false));
+        return ok(edit.render(currentUserSession, populatedViewModelPostForm, viewModelGet, false));
     }
 
     public Result editPost(int id) {
@@ -181,7 +182,7 @@ public class PharmaciesController extends Controller {
 
         //assume the patient was not counseled, set to true if they were.
         boolean isCounseled = false;
-        if (createViewModelPost.getDisclaimer() == 1){
+        if (createViewModelPost.getDisclaimer() == 1) {
             isCounseled = true;
         }
 
@@ -191,44 +192,49 @@ public class PharmaciesController extends Controller {
         // Map<id, isCounseled>
         Map<Integer, Boolean> prescriptionsToDispense = new HashMap<>();
 
-        for(PrescriptionItem script : createViewModelPost.getPrescriptions()) {
+        if (createViewModelPost == null){
+            for (PrescriptionItem script : createViewModelPost.getPrescriptions()) {
 
-            if (StringUtils.isNotNullOrWhiteSpace(script.getMedicationName())) {
-                //create a new prescription to replace the old prescription.
-                if (script.getAmount() == null){
-                    script.setAmount(0);
+                if (StringUtils.isNotNullOrWhiteSpace(script.getMedicationName())) {
+                    //create a new prescription to replace the old prescription.
+                    if (script.getAmount() == null) {
+                        script.setAmount(0);
+                    }
+
+                    if (script.getMedicationID() != null) {
+                        //the medication has already been entered into the medications table (through admin inventory?)
+                        ServiceResponse<PrescriptionItem> createPrescriptionResponse = medicationService.createPrescription(script.getMedicationID(),
+                                script.getAdministrationID(),
+                                patientEncounterItem.getId(),
+                                currentUserSession.getId(),
+                                script.getAmount(),
+                                null);
+                        PrescriptionItem newPrescriptionItem = createPrescriptionResponse.getResponseObject();
+                        //mark the prescription for replacing
+                        prescriptionsToReplace.put(newPrescriptionItem.getId(), script.getId());
+
+                    } else {
+                        //the medication has not already been entered into the medications table
+                        ServiceResponse<PrescriptionItem> createPrescriptionResponse = medicationService.createPrescriptionWithNewMedication(
+                                script.getMedicationName(),
+                                script.getAdministrationID(),
+                                patientEncounterItem.getId(),
+                                currentUserSession.getId(),
+                                script.getAmount(),
+                                null);
+                        PrescriptionItem newPrescriptionItem = createPrescriptionResponse.getResponseObject();
+                        //mark the prescription for replacing
+                        prescriptionsToReplace.put(newPrescriptionItem.getId(), script.getId());
+                    }
+
+                } else {
+                    // mark the prescription for dispensing
+                    prescriptionsToDispense.put(script.getId(), isCounseled);
                 }
-
-                if (script.getMedicationID() != null){
-                    //the medication has already been entered into the medications table (through admin inventory?)
-                    ServiceResponse<PrescriptionItem> createPrescriptionResponse = medicationService.createPrescription(script.getMedicationID(),
-                            script.getAdministrationID(),
-                            patientEncounterItem.getId(),
-                            currentUserSession.getId(),
-                            script.getAmount(),
-                            null);
-                    PrescriptionItem newPrescriptionItem = createPrescriptionResponse.getResponseObject();
-                    //mark the prescription for replacing
-                    prescriptionsToReplace.put(newPrescriptionItem.getId(), script.getId());
-
-                }else{
-                    //the medication has not already been entered into the medications table
-                    ServiceResponse<PrescriptionItem> createPrescriptionResponse = medicationService.createPrescriptionWithNewMedication(
-                            script.getMedicationName(),
-                            script.getAdministrationID(),
-                            patientEncounterItem.getId(),
-                            currentUserSession.getId(),
-                            script.getAmount(),
-                            null);
-                    PrescriptionItem newPrescriptionItem = createPrescriptionResponse.getResponseObject();
-                    //mark the prescription for replacing
-                    prescriptionsToReplace.put(newPrescriptionItem.getId(), script.getId());
-                }
-
-            } else {
-                // mark the prescription for dispensing
-                prescriptionsToDispense.put(script.getId(), isCounseled);
             }
+    }
+        else{
+
         }
 
         // replace the prescriptions! (but do not dispense them)
