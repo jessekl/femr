@@ -28,27 +28,27 @@
 
 
 
+
         <div id="mainWrap" class="backgroundForWrap">
+
         @helper.form(action = PharmaciesController.editPost(viewModel.getPatient.getId)) {
 
+                <div id="diagnosisWrap">
+                    <h4>List of Diagnoses</h4>
 
-            <div id="diagnosisWrap">
-                <h4>List of Diagnoses</h4>
+                    <ol class="problems">
 
-                <ol class="problems">
+                    @if(viewModel.getProblems != null) {
+                        @for(y <- 1 to viewModel.getProblems.size) {
+                            @if(viewModel.getProblems.get(y - 1) != null) {
+                                <input type = "text" name="editDiag" placeholder="@viewModel.getProblems.get(y - 1).getName"></input>
+                                <input type="submit" value="Edit Diagnosis"></input>
 
-                @if(viewModel.getProblems != null) {
-                    @for(y <- 1 to viewModel.getProblems.size) {
-                        @if(viewModel.getProblems.get(y - 1) != null) {
-                            <li>@viewModel.getProblems.get(y - 1).getName</li>
-
+                            }
                         }
                     }
-                }
-                </ol>
-            </div>
-
-
+                    </ol>
+                </div>
 
 
             <div id="medicationWrap" class="form-group">
