@@ -29,6 +29,7 @@ public class CreateViewModel {
     private String lastName;
     private String email;
     private String password;
+    private String passwordConfirm;
     private Boolean isDeleted;
     private String passwordReset;
     private List<String> roles;
@@ -80,8 +81,16 @@ public class CreateViewModel {
         return password;
     }
 
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public Integer getUserId() {
